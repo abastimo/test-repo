@@ -1,17 +1,41 @@
 #!/bin/bash
 
-echo "Iniciando ejecuciones en paralelo..."
+echo "Iniciando procesos en paralelo..."
 
-echo "Lanzando Hola1..."
-bash scripts/hola1.txt &
+(
+    echo "Proceso 1 iniciado"
+
+    if [ -f "Hola1.txt" ]; then
+        echo "Hola1.txt ya existe, eliminando..."
+        rm -f "Hola1.txt"
+    fi
+
+    sleep 2
+
+    echo "Hola1" > "Hola1.txt"
+
+    echo "Hola1.txt creado"
+) &
 PID1=$!
 
-echo "Lanzando Hola2..."
-bash scripts/hola2.txt &
+(
+    echo "Proceso 2 iniciado"
+
+    if [ -f "Hola2.txt" ]; then
+        echo "Hola2.txt ya existe, eliminando..."
+        rm -f "Hola2.txt"
+    fi
+
+    sleep 2
+
+    echo "Hola2" > "Hola2.txt"
+
+    echo "Hola2.txt creado"
+) &
 PID2=$!
 
-echo "PID Hola1: $PID1"
-echo "PID Hola2: $PID2"
+echo "PID Proceso 1: $PID1"
+echo "PID Proceso 2: $PID2"
 
 wait "$PID1"
 STATUS1=$?
@@ -26,4 +50,12 @@ if [ "$STATUS1" -ne 0 ] || [ "$STATUS2" -ne 0 ]; then
     exit 1
 fi
 
-echo "Ambos procesos terminaron correctamente."
+echo "Ambos archivos fueron creados correctamente."
+
+ls -l Hola1.txt Hola2.txt
+
+echo "Contenido Hola1.txt:"
+cat Hola1.txt
+
+echo "Contenido Hola2.txt:"
+cat Hola2.txt
