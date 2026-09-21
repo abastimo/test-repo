@@ -2,9 +2,11 @@
 
 echo "Iniciando ejecuciones en paralelo..."
 
+echo "Lanzando Hola1..."
 bash scripts/hola1.txt &
 PID1=$!
 
+echo "Lanzando Hola2..."
 bash scripts/hola2.txt &
 PID2=$!
 
