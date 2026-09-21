@@ -2,6 +2,26 @@ name: Ejecutar archivos en paralelo
 
 on:
   workflow_dispatch:
+    inputs:
+      nombre_archivo_1:
+        description: "Nombre del archivo 1"
+        required: true
+        type: string
+
+      contenido_archivo_1:
+        description: "Contenido del archivo 1"
+        required: true
+        type: string
+
+      nombre_archivo_2:
+        description: "Nombre del archivo 2"
+        required: true
+        type: string
+
+      contenido_archivo_2:
+        description: "Contenido del archivo 2"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -17,16 +37,22 @@ jobs:
       - name: Dar permisos al script
         run: chmod +x scripts/ejecutar.sh
 
-      - name: Ejecutar Bash
+      - name: Ejecutar procesos en paralelo
+        env:
+          NOMBRE_ARCHIVO_1: ${{ inputs.nombre_archivo_1 }}
+          CONTENIDO_ARCHIVO_1: ${{ inputs.contenido_archivo_1 }}
+          NOMBRE_ARCHIVO_2: ${{ inputs.nombre_archivo_2 }}
+          CONTENIDO_ARCHIVO_2: ${{ inputs.contenido_archivo_2 }}
         run: ./scripts/ejecutar.sh
-        
+
       - name: Guardar archivos en el repositorio
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add Hola1.txt Hola2.txt
-
-          git commit -m "Crear Hola1 y Hola2 desde GitHub Actions" || echo "No hay cambios para commitear"
-
+          git add -- "$NOMBRE_ARCHIVO_1" "$NOMBRE_ARCHIVO_2"
+          git commit -m "Generar archivos desde Port" || echo "No hay cambios para commitear"
           git push
+        env:
+          NOMBRE_ARCHIVO_1: ${{ inputs.nombre_archivo_1 }}
+          NOMBRE_ARCHIVO_2: ${{ inputs.nombre_archivo_2 }}
