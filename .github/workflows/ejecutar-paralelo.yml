@@ -3,6 +3,9 @@ name: Ejecutar archivos en paralelo
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   ejecutar:
     runs-on: ubuntu-latest

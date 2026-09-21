@@ -50,12 +50,13 @@ if [ "$STATUS1" -ne 0 ] || [ "$STATUS2" -ne 0 ]; then
     exit 1
 fi
 
-echo "Ambos archivos fueron creados correctamente."
+echo "Ambos procesos terminaron correctamente."
 
+echo "Archivos generados:"
 ls -l Hola1.txt Hola2.txt
 
-echo "Contenido Hola1.txt:"
+echo "Contenido de Hola1.txt:"
 cat Hola1.txt
 
-echo "Contenido Hola2.txt:"
+echo "Contenido de Hola2.txt:"
 cat Hola2.txt
